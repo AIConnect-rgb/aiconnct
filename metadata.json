@@ -1,0 +1,7 @@
+{
+  "name": "AI Connect",
+  "description": "An intelligent app that uses Gemini to analyze user feedback, identify key insights, score innovation, and suggest automated responses, bridging the gap between the public and high-profile entities.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

@@ -1,0 +1,59 @@
+@if(isAuthenticated()){
+  <div class="flex items-start gap-4">
+    <img src="https://i.pravatar.cc/48?u=current_user" alt="Your avatar" class="w-12 h-12 rounded-full">
+    <div class="w-full">
+      <textarea #textarea rows="3"
+                [placeholder]="t('postPlaceholder')"
+                spellcheck="true"
+                [value]="userInput()"
+                (input)="onInput($event)"
+                class="w-full bg-transparent text-xl placeholder-slate-500 text-slate-200 focus:outline-none resize-none"></textarea>
+      <div class="flex justify-end items-center mt-2 gap-2">
+        <button (click)="runSpellCheck()" 
+                [disabled]="isCorrecting() || !userInput().trim()"
+                [title]="t('spellCheckTooltip')"
+                class="p-2 rounded-full text-slate-400 hover:text-cyan-400 transition-colors disabled:text-slate-600 disabled:cursor-not-allowed">
+            @if(isCorrecting()) {
+                <svg class="animate-spin h-6 w-6 text-cyan-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+            } @else {
+                <span class="material-symbols-outlined text-2xl">spellcheck</span>
+            }
+        </button>
+        <span class="material-symbols-outlined text-slate-400 p-2 cursor-default" 
+              [title]="t('continuousDialogueTooltip')">
+          forum
+        </span>
+        <button (click)="toggleRecording()"
+                [disabled]="!speechService.isSupported()"
+                [class]="isRecording() ? 'text-red-500 animate-pulse' : 'text-slate-400 hover:text-cyan-400'"
+                class="p-2 rounded-full transition-colors disabled:text-slate-600 disabled:cursor-not-allowed">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+              <path d="M8.25 4.5a3.75 3.75 0 1 1 7.5 0v8.25a3.75 3.75 0 1 1-7.5 0V4.5Z" />
+              <path d="M6 10.5a.75.75 0 0 1 .75.75v.75a4.5 4.5 0 0 0 9 0v-.75a.75.75 0 0 1 1.5 0v.75a6 6 0 1 1-12 0v-.75a.75.75 0 0 1 .75-.75Z" />
+            </svg>
+        </button>
+        <button (click)="submitPost()" [disabled]="isPosting() || !userInput().trim()" class="flex items-center justify-center gap-2 px-6 py-2 border border-transparent text-base font-medium rounded-full text-white bg-cyan-600 hover:bg-cyan-700 disabled:bg-slate-600 disabled:cursor-not-allowed transition duration-150 ease-in-out">
+          @if (isPosting()) {
+            <svg class="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span>{{ t('postingButton') }}</span>
+          } @else {
+            <span>{{ t('postButton') }}</span>
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="text-center p-6 bg-slate-800/50 rounded-lg border border-slate-700">
+    <p class="text-slate-300 font-medium mb-4">{{ t('signInToPost') }}</p>
+    <button (click)="requestLogin()" class="px-6 py-2 border border-transparent text-base font-medium rounded-full text-white bg-cyan-600 hover:bg-cyan-700 transition duration-150 ease-in-out">
+        {{ t('signinButton') }}
+    </button>
+  </div>
+}

@@ -1,0 +1,5 @@
+/* We can add any post-specific styles here if needed. */
+.is-speaking {
+  background-color: rgb(30 41 59 / 0.5); /* bg-slate-800/50 */
+  box-shadow: 0 0 0 2px rgb(34 211 238 / 0.4); /* ring-2 ring-cyan-500/40 */
+}
